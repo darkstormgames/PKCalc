@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc", "PKCalc\PKCalc.csproj", "{770154B0-67F5-404D-9CDA-8DF39F2C91E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.UI", "PKCalc.UI\PKCalc.UI.csproj", "{9FF6C970-9934-4A35-A0C1-A6A2FD9B06D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C3C1FF7-543B-4203-B9EA-2BBD21BD99A6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Resources", "PKCalc.Resources\PKCalc.Resources.csproj", "{279CD1BF-F7B0-4B21-9578-F0BF98575C37}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Net", "PKCalc.Net\PKCalc.Net.csproj", "{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCalc.Client", "PKCalc.Client\PKCalc.Client.csproj", "{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCalc.Logger", "PKCalc.Logger\PKCalc.Logger.csproj", "{E457CB02-4C39-4738-9002-F62500BF8475}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{770154B0-67F5-404D-9CDA-8DF39F2C91E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{770154B0-67F5-404D-9CDA-8DF39F2C91E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{770154B0-67F5-404D-9CDA-8DF39F2C91E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{770154B0-67F5-404D-9CDA-8DF39F2C91E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FF6C970-9934-4A35-A0C1-A6A2FD9B06D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FF6C970-9934-4A35-A0C1-A6A2FD9B06D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FF6C970-9934-4A35-A0C1-A6A2FD9B06D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FF6C970-9934-4A35-A0C1-A6A2FD9B06D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279CD1BF-F7B0-4B21-9578-F0BF98575C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279CD1BF-F7B0-4B21-9578-F0BF98575C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279CD1BF-F7B0-4B21-9578-F0BF98575C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279CD1BF-F7B0-4B21-9578-F0BF98575C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E457CB02-4C39-4738-9002-F62500BF8475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E457CB02-4C39-4738-9002-F62500BF8475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E457CB02-4C39-4738-9002-F62500BF8475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E457CB02-4C39-4738-9002-F62500BF8475}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2E2424B-D06F-49A6-8FE9-808715042337}
+	EndGlobalSection
+EndGlobal
