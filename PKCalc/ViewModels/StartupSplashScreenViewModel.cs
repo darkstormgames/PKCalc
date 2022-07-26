@@ -13,7 +13,10 @@ namespace PKCalc.ViewModels
 
         public bool LoadData()
         {
+            App.Logger.Trace("Loading data.");
+
             // Load data from a database, web service, or other source
+            App.Logger.Trace("Finished loading data.");
             return true;
         }
     }

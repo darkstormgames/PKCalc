@@ -41,7 +41,7 @@ namespace PKCalc.UI
             {
                 Title = "Critical Error",
                 MainInstruction = "An error has occurred. The application will now close.",
-                Content = "Download the newest version of the application from <a href=\"https://github.com\">GitHub</a>.",
+                Content = "Try downloading the newest version of this application from <a href=\"https://github.com/darkstormgames/PKCalc/releases\">GitHub</a>.",
                 MainIcon = TaskDialogIcon.Error,
                 ExpandedInfo = ex?.Message,
                 AllowDialogCancellation = false,
@@ -49,6 +49,33 @@ namespace PKCalc.UI
                 Callback = messageCallback,
                 Theme = "Light.Crimson"
             };
+            TaskDialogResult result = TaskDialog.Show(config);
+            switch (result.CustomButtonResult)
+            {
+                case 0:
+                    string errorData = $"{ex.Message}\n{ex.StackTrace}";
+                    errorData = errorData.Replace('"', '\'').Replace("\r\n", @"\n");
+                    break;
+            }
+        }
+
+        public static void ShowError(Exception ex)
+        {
+            TaskDialogOptions config = new()
+            {
+                Title = "Error",
+                MainInstruction = "An error has occurred.",
+                Content = ex?.Message,
+                MainIcon = TaskDialogIcon.Error,
+                AllowDialogCancellation = false,
+                CustomButtons = new[] { "&Send Error Data and Continue", "Continue" },
+                Callback = messageCallback,
+                Theme = "Light.Crimson"
+            };
+#if DEBUG
+            config.ExpandedInfo = ex?.StackTrace;
+#endif
+
             TaskDialogResult result = TaskDialog.Show(config);
             switch (result.CustomButtonResult)
             {

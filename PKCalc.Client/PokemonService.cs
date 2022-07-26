@@ -19,24 +19,25 @@ namespace PKCalc.Client
         /// <summary>
         /// Checks, if the PC is connected to the internet.
         /// </summary>
-        public static bool IsOnline => NetworkHelper.IsOnline;
+        public bool IsOnline => NetworkHelper.IsOnline;
 
-
-        public Logger.AppLog Logger { get; private set; }
+        private Logger.AppLog logger;
+        public Logger.AppLog Logger
+        {
+            get
+            {
+                return logger;
+            }
+            set
+            {
+                if (logger == null)
+                    logger = value;
+            }
+        }
 
         private PokemonService()
         {
-            PokemonService.instance = this;
-
-#if DEBUG
-            this.Logger = new Logger.AppLog(
-                minLogLevel: NLog.LogLevel.Trace,
-                useMetrics: true,
-                debugLogging: true);
-#else
             
-#endif
-
         }
     }
 }

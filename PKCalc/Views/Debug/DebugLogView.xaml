@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="PKCalc.Views.Debug.DebugLogView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PKCalc.Views.Debug"
+      xmlns:root="clr-namespace:PKCalc"
+      xmlns:converters="clr-namespace:PKCalc.Converters"
+      xmlns:vm="clr-namespace:PKCalc.ViewModels.Debug"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <vm:DebugLogViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:ToUpperValueConverter x:Key="StringToUpperConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DataGrid x:Name="DebugDataGrid"
+                  Grid.Column="1"
+                  Margin="5"
+                  MaxWidth="500"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding LogItems, UpdateSourceTrigger=PropertyChanged}"
+                  Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Level.Name, Converter={StaticResource StringToUpperConverter}}" Header="Level" />
+                <DataGridTextColumn Binding="{Binding TimeString}" Header="Time" />
+                <DataGridTextColumn Binding="{Binding Message}" Header="Message" />
+                <DataGridTextColumn Binding="{Binding Exception.StackTrace}" Header="StackTrace" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

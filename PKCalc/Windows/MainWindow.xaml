@@ -2,16 +2,133 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PKCalc.Windows"
+        xmlns:root="clr-namespace:PKCalc"
+        xmlns:converters="clr-namespace:PKCalc.Converters"
         xmlns:vm="clr-namespace:PKCalc.ViewModels"
+        xmlns:debugview="clr-namespace:PKCalc.Views.Debug"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="400">
+        Title="PKCalc" 
+        Width="1280" Height="1024"
+        MinWidth="1280" MinHeight="850">
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
+
+    <mah:MetroWindow.Resources>
+        <ResourceDictionary>
+            <converters:ToUpperValueConverter x:Key="StringToUpperConverter" />
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False"
+                                    IsTabStop="False" />
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Text="{Binding Label}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </mah:MetroWindow.Resources>
+
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button>
+                <iconPacks:PackIconSimpleIcons Kind="Pokemon" Width="61" Height="22" Foreground="Yellow" />
+            </Button>
+            <Button Command="{Binding OnGithubButton}">
+                <iconPacks:PackIconBootstrapIcons Kind="Github" Width="22" Height="22" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands ShowSeparators="False">
+            <!--<mah:ToggleSwitch Name="ModeToggle" Style="{StaticResource ThemeSwitchStyle}" IsOn="True" Command="{Binding OnModeToggle}" />-->
+            <Button Command="{Binding OnDebugButton}" 
+                    CommandParameter="{Binding ElementName=DebugFlyout}" 
+                    Visibility="{Binding Source={x:Static root:App.IsDebug}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <iconPacks:Codicons Kind="Debug" />
+            </Button>
+            <Button Command="{Binding OnAboutButton}" CommandParameter="{Binding ElementName=AboutFlyout}">
+                <iconPacks:Material Kind="Help" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout x:Name="DebugFlyout" Header="Debug Log" Position="Right" MaxWidth="500" IsPinned="False">
+                <debugview:DebugLogView />
+            </mah:Flyout>
+            <mah:Flyout x:Name="AboutFlyout" Header="About" Position="Right" MaxWidth="500" IsPinned="False">
+                
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0"
+                BorderBrush="{DynamicResource MahApps.Brushes.Gray7}"
+                BorderThickness="1">
+            <mah:HamburgerMenu x:Name="SidebarMenu"
+                               DisplayMode="CompactOverlay"
+                               HamburgerWidth="48"
+                               ItemTemplate="{StaticResource MenuItemTemplate}"
+                               OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                               SelectedIndex="0">
+                <mah:HamburgerMenu.ItemsSource>
+                    <mah:HamburgerMenuItemCollection>
+                        <mah:HamburgerMenuIconItem Label="Calculator"
+                                                   Icon="{iconPacks:Material Kind=Calculator}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl>
+                                    <StackPanel Orientation="Vertical">
+                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                                        <mah:ToggleSwitch Margin="0 0 0 5"
+                                                          Header="Ut dictum arcu egestas aliquet elementum"
+                                                          IsOn="True" />
+                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Pellentesque ultricies metus quis dui luctus, vel faucibus risus rhoncus" />
+                                    </StackPanel>
+                                </UserControl>
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Label="One vs All"
+                                                   Icon="{iconPacks:Material Kind=PowerSettings}" />
+                        <mah:HamburgerMenuIconItem Label="All vs One"
+                                                   Icon="{iconPacks:Material Kind=Help}" />
+                        <mah:HamburgerMenuIconItem Label="UI Tests"
+                                                   Icon="{iconPacks:FileIcons Kind=TestGeneric}" />
+                    </mah:HamburgerMenuItemCollection>
+                </mah:HamburgerMenu.ItemsSource>
+
+                <mah:HamburgerMenu.OptionsItemsSource>
+                    <mah:HamburgerMenuItemCollection>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Account}" Label="Connected Services">
+
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
+                            
+                        </mah:HamburgerMenuIconItem>
+                    </mah:HamburgerMenuItemCollection>
+                </mah:HamburgerMenu.OptionsItemsSource>
+            </mah:HamburgerMenu>
+        </Border>
+
     </Grid>
 </mah:MetroWindow>

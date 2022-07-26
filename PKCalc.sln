@@ -16,9 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Resources", "PKCalc.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Net", "PKCalc.Net\PKCalc.Net.csproj", "{DBE5BB24-B063-4A5A-AD4C-3CD7C457ADC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCalc.Client", "PKCalc.Client\PKCalc.Client.csproj", "{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Client", "PKCalc.Client\PKCalc.Client.csproj", "{E487AFDC-3884-4A53-88E0-0DFE06D6D3E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCalc.Logger", "PKCalc.Logger\PKCalc.Logger.csproj", "{E457CB02-4C39-4738-9002-F62500BF8475}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKCalc.Logger", "PKCalc.Logger\PKCalc.Logger.csproj", "{E457CB02-4C39-4738-9002-F62500BF8475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCalc.Configuration", "PKCalc.Configuration\PKCalc.Configuration.csproj", "{847F7FC9-77BF-4C74-81FE-3BBA61C94101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{E457CB02-4C39-4738-9002-F62500BF8475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E457CB02-4C39-4738-9002-F62500BF8475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E457CB02-4C39-4738-9002-F62500BF8475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847F7FC9-77BF-4C74-81FE-3BBA61C94101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847F7FC9-77BF-4C74-81FE-3BBA61C94101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847F7FC9-77BF-4C74-81FE-3BBA61C94101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847F7FC9-77BF-4C74-81FE-3BBA61C94101}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

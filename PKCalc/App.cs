@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime;
 using System.Text;
@@ -13,10 +14,31 @@ using PKCalc.Windows;
 
 namespace PKCalc
 {
-    internal partial class App : Application
+    public partial class App : Application
     {
-        public static Logger.AppLog Logger { get; private set; }
+        private static Logger.AppLog logger;
+        public static Logger.AppLog Logger 
+        { 
+            get
+            {
+                if (logger == null)
+                {
+#if DEBUG
+                    logger = new(minLogLevel: NLog.LogLevel.Trace, internalLogItems: InternalLog);
+#else
+                    logger = new(minLogLevel: Configuration.RegistryHelper.GetLogLevel());
+#endif
+                }
+                return logger;
+            }
+        }
+        public static ObservableCollection<Logger.InternalLogItem> InternalLog { get; private set; } = new();
         public static PokemonService Service { get; private set; }
+#if DEBUG
+        public static bool IsDebug => true;
+#else
+        public static bool IsDebug => false;
+#endif
 
 
         public string[] CLArgs { get; internal set; }
@@ -33,57 +55,40 @@ namespace PKCalc
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-#if DEBUG
-            Logger = new(
-                minLogLevel: NLog.LogLevel.Trace,
-                useMetrics: true,
-                debugLogging: true);
-#else
-            
-#endif
-
+            Logger.Trace("Starting Application.");
             StartupSplashScreen splash = new();
             Service = PokemonService.Instance;
             splash.Show();
-            TaskDialogHelper.ShowDebugMessage("SplashScreen showing.", 
-                    "Here is a super fancy splash screen behind (or in front of) this dialog.");
             if (splash.DataContext != null)
                 ((ViewModels.StartupSplashScreenViewModel)splash.DataContext).LoadData();
             else
             {
+                Logger.Fatal("StartupSplashScreenViewModel is null.");
                 TaskDialogHelper.ShowCriticalError(
                     new ApplicationException(
                         "Couldn't load data because of a critical initialization error!",
-                        new Exception("DataContext is null")));
+                        new Exception("StartupSplashScreenViewModel is null")));
                 Environment.Exit(10);
             }
 
+            Logger.Trace("Starting MainWindow.");
             MainWindow main = new();
-            Application.Current.MainWindow = main;
+            Current.MainWindow = main;
             splash.Close();
             main.Show();
+            Logger.Info("Application started.");
         }
 
         private void Application_Exit(object sender, EventArgs e)
         {
+            Logger.Info("Exiting Application.");
             NLog.LogManager.Shutdown();
         }
 
         private void Application_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            // If the app is running outside of the debugger then report the exception using
-            // the browser's exception mechanism. On IE this will display it a yellow alert 
-            // icon in the status bar and Firefox will display a script error.
-            if (!System.Diagnostics.Debugger.IsAttached)
-            {
-
-                // NOTE: This will allow the application to continue running after an exception has been thrown
-                // but not handled. 
-                // For production applications this error handling should be replaced with something that will 
-                // report the error to the website and stop the application.
-
-                //Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
-            }
+            Logger.Error(e.Exception, "Unhandled Exception.");
+            TaskDialogHelper.ShowError(e.Exception);
         }
     }
 }
