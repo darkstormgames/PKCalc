@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TaskDialogInterop;
+using ControlzEx.Theming;
 
 namespace PKCalc.UI
 {
@@ -72,9 +73,8 @@ namespace PKCalc.UI
                 Callback = messageCallback,
                 Theme = "Light.Crimson"
             };
-#if DEBUG
-            config.ExpandedInfo = ex?.StackTrace;
-#endif
+            if (Configuration.RegistryHelper.GetLogLevel().Ordinal <= 1)
+                config.ExpandedInfo = ex?.StackTrace;
 
             TaskDialogResult result = TaskDialog.Show(config);
             switch (result.CustomButtonResult)

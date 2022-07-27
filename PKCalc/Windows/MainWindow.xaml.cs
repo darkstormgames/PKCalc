@@ -26,10 +26,12 @@ namespace PKCalc.Windows
             InitializeComponent();
         }
 
-        private void SidebarMenu_ItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        private void sidebarMenu_Loaded(object sender, RoutedEventArgs e)
         {
-            App.Logger.Trace("SidebarItem \"{0}\" clicked.", ((HamburgerMenuItem)e.InvokedItem).Label);
-            this.SidebarMenu.Content = e.InvokedItem;
+            if (sender is HamburgerMenu sidebarMenu)
+            {
+                sidebarMenu.Content = sidebarMenu.Items.OfType<HamburgerMenuItem>().FirstOrDefault();
+            }
         }
     }
 }

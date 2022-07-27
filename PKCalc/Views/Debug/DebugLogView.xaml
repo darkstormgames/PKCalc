@@ -22,7 +22,7 @@
         <DataGrid x:Name="DebugDataGrid"
                   Grid.Column="1"
                   Margin="5"
-                  MaxWidth="500"
+                  Width="auto"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding LogItems, UpdateSourceTrigger=PropertyChanged}"
                   Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"

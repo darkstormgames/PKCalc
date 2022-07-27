@@ -79,9 +79,13 @@
 							   Visibility="{Binding Content, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}" />
                     <Border BorderThickness="1" BorderBrush="Black" Grid.Row="2"
                             Visibility="{Binding ContentExpandedInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock x:Name="ContentExpandedInfo"
-							   Margin="3,8,3,8"
+                        <ScrollViewer MaxHeight="400"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="ContentExpandedInfo"
+							   Margin="3,8,3,8" TextWrapping="Wrap"
 							   Visibility="{Binding ContentExpandedInfoVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                        </ScrollViewer>
                     </Border>
                     <ProgressBar x:Name="ProgressBar" Grid.Row="3"
 								 Height="15" Margin="3,7,3,3"
@@ -223,7 +227,7 @@
 									CommandParameter="{Binding ID, Mode=OneWay}"
 									IsCancel="{Binding IsCancel, Mode=OneWay}"
 									IsDefault="{Binding IsDefault, Mode=OneWay}"
-									Click="NormalButton_Click"/>
+									Click="normalButton_Click"/>
 						</DataTemplate>
 					</ItemsControl.Resources>
 				</ItemsControl>

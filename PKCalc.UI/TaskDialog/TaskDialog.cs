@@ -56,15 +56,15 @@ namespace TaskDialogInterop
             // Make a copy since we'll let Showing event possibly modify them
             TaskDialogOptions configOptions = options;
 
-            OnShowing(new TaskDialogShowingEventArgs(ref configOptions));
+            onShowing(new TaskDialogShowingEventArgs(ref configOptions));
 
             TaskDialogResult result;
             //if (VistaTaskDialog.IsAvailableOnThisOS && !ForceEmulationMode)
             
-            result = ShowEmulatedTaskDialog(configOptions);
+            result = showEmulatedTaskDialog(configOptions);
             
 
-            OnClosed(new TaskDialogClosedEventArgs(result));
+            onClosed(new TaskDialogClosedEventArgs(result));
 
 			return result;
 		}
@@ -320,7 +320,7 @@ namespace TaskDialogInterop
 		/// Raises the <see cref="E:Showing"/> event.
 		/// </summary>
 		/// <param name="e">The <see cref="TaskDialogInterop.TaskDialogShowingEventArgs"/> instance containing the event data.</param>
-		private static void OnShowing(TaskDialogShowingEventArgs e)
+		private static void onShowing(TaskDialogShowingEventArgs e)
 		{
             Showing?.Invoke(null, e);
         }
@@ -328,12 +328,12 @@ namespace TaskDialogInterop
 		/// Raises the <see cref="E:Closed"/> event.
 		/// </summary>
 		/// <param name="e">The <see cref="TaskDialogInterop.TaskDialogClosedEventArgs"/> instance containing the event data.</param>
-		private static void OnClosed(TaskDialogClosedEventArgs e)
+		private static void onClosed(TaskDialogClosedEventArgs e)
 		{
             Closed?.Invoke(null, e);
         }
         
-		private static TaskDialogResult ShowEmulatedTaskDialog(TaskDialogOptions options)
+		private static TaskDialogResult showEmulatedTaskDialog(TaskDialogOptions options)
 		{
 			TaskDialog td = new();
 			TaskDialogViewModel tdvm = new(options);
@@ -344,11 +344,13 @@ namespace TaskDialogInterop
 			{
 				td.Owner = options.Owner;
 			}
-            
-			if (!string.IsNullOrEmpty(options.Theme))
+
+            Theme theme = ThemeManager.Current.DetectTheme(td);
+            if (!string.IsNullOrEmpty(options.Theme))
 				ThemeManager.Current.ChangeTheme(td, options.Theme);
 
 			td.ShowDialog();
+            ThemeManager.Current.ChangeTheme(td, theme);
             int? commandButtonResult = null;
 			int? customButtonResult = null;
 
@@ -391,11 +393,11 @@ namespace TaskDialogInterop
 
             return result;
 		}
-		private static bool DetectHyperlinks(string content, string expandedInfo, string footerText)
+		private static bool detectHyperlinks(string content, string expandedInfo, string footerText)
 		{
-			return DetectHyperlinks(content) || DetectHyperlinks(expandedInfo) || DetectHyperlinks(footerText);
+			return detectHyperlinks(content) || detectHyperlinks(expandedInfo) || detectHyperlinks(footerText);
 		}
-		private static bool DetectHyperlinks(string text)
+		private static bool detectHyperlinks(string text)
 		{
 			if (String.IsNullOrEmpty(text))
 				return false;

@@ -29,12 +29,12 @@ namespace TaskDialogInterop
 		{
 			InitializeComponent();
 
-			this.Loaded += new RoutedEventHandler(TaskDialog_Loaded);
-			this.SourceInitialized += new EventHandler(TaskDialog_SourceInitialized);
-			this.KeyDown += new KeyEventHandler(TaskDialog_KeyDown);
-			base.ContentRendered += new EventHandler(TaskDialog_ContentRendered);
-			this.Closing += new System.ComponentModel.CancelEventHandler(TaskDialog_Closing);
-			base.Closed += new EventHandler(TaskDialog_Closed);
+			this.Loaded += new RoutedEventHandler(taskDialog_Loaded);
+			this.SourceInitialized += new EventHandler(taskDialog_SourceInitialized);
+			this.KeyDown += new KeyEventHandler(taskDialog_KeyDown);
+			base.ContentRendered += new EventHandler(taskDialog_ContentRendered);
+			this.Closing += new System.ComponentModel.CancelEventHandler(taskDialog_Closing);
+			base.Closed += new EventHandler(taskDialog_Closed);
 		}
 
 		private TaskDialogViewModel ViewModel
@@ -42,17 +42,17 @@ namespace TaskDialogInterop
 			get { return this.DataContext as TaskDialogViewModel; }
 		}
 
-		private void TaskDialog_Loaded(object sender, RoutedEventArgs e)
+		private void taskDialog_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (ViewModel != null)
 			{
-				ViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(ViewModel_PropertyChanged);
-				ViewModel.RequestClose +=new EventHandler(ViewModel_RequestClose);
+				ViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(viewModel_PropertyChanged);
+				ViewModel.RequestClose +=new EventHandler(viewModel_RequestClose);
 
-				ConvertToHyperlinkedText(ContentText, ViewModel.Content);
-				ConvertToHyperlinkedText(ContentExpandedInfo, ViewModel.ContentExpandedInfo);
-				ConvertToHyperlinkedText(FooterExpandedInfo, ViewModel.FooterExpandedInfo);
-				ConvertToHyperlinkedText(FooterText, ViewModel.FooterText);
+				convertToHyperlinkedText(ContentText, ViewModel.Content);
+				convertToHyperlinkedText(ContentExpandedInfo, ViewModel.ContentExpandedInfo);
+				convertToHyperlinkedText(FooterExpandedInfo, ViewModel.FooterExpandedInfo);
+				convertToHyperlinkedText(FooterText, ViewModel.FooterText);
 
 				this.WindowStartupLocation = ViewModel.StartPosition;
 
@@ -94,7 +94,7 @@ namespace TaskDialogInterop
 				}
 			}
 		}
-		private void TaskDialog_SourceInitialized(object sender, EventArgs e)
+		private void taskDialog_SourceInitialized(object sender, EventArgs e)
 		{
 			if (ViewModel != null)
 			{
@@ -113,7 +113,7 @@ namespace TaskDialogInterop
 			}
 		}
         
-		private void TaskDialog_KeyDown(object sender, KeyEventArgs e)
+		private void taskDialog_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (ViewModel != null)
 			{
@@ -132,40 +132,40 @@ namespace TaskDialogInterop
 				}
 			}
 		}
-		private void TaskDialog_ContentRendered(object sender, EventArgs e)
+		private void taskDialog_ContentRendered(object sender, EventArgs e)
 		{
 			ViewModel.NotifyShown();
 		}
-		private void TaskDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void taskDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = ViewModel.ShouldCancelClosing();
 		}
-		private void TaskDialog_Closed(object sender, EventArgs e)
+		private void taskDialog_Closed(object sender, EventArgs e)
 		{
 			ViewModel.NotifyClosed();
 		}
-		private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Content")
-				ConvertToHyperlinkedText(ContentText, ViewModel.Content);
+				convertToHyperlinkedText(ContentText, ViewModel.Content);
 			if (e.PropertyName == "ContentExpandedInfo")
-				ConvertToHyperlinkedText(ContentExpandedInfo, ViewModel.ContentExpandedInfo);
+				convertToHyperlinkedText(ContentExpandedInfo, ViewModel.ContentExpandedInfo);
 			if (e.PropertyName == "FooterExpandedInfo")
-				ConvertToHyperlinkedText(FooterExpandedInfo, ViewModel.FooterExpandedInfo);
+				convertToHyperlinkedText(FooterExpandedInfo, ViewModel.FooterExpandedInfo);
 			if (e.PropertyName == "FooterText")
-				ConvertToHyperlinkedText(FooterText, ViewModel.FooterText);
+				convertToHyperlinkedText(FooterText, ViewModel.FooterText);
 		}
-		private void ViewModel_RequestClose(object sender, EventArgs e)
+		private void viewModel_RequestClose(object sender, EventArgs e)
 		{
 			this.Close();
 		}
-		private void NormalButton_Click(object sender, RoutedEventArgs e)
+		private void normalButton_Click(object sender, RoutedEventArgs e)
 		{
 		}
-		private void CommandLink_Click(object sender, RoutedEventArgs e)
+		private void commandLink_Click(object sender, RoutedEventArgs e)
 		{
 		}
-		private void Hyperlink_Click(object sender, EventArgs e)
+		private void hyperlink_Click(object sender, EventArgs e)
 		{
 			if (sender is Hyperlink)
 			{
@@ -176,13 +176,13 @@ namespace TaskDialogInterop
 			}
 		}
 
-		private void ConvertToHyperlinkedText(TextBlock textBlock, string text)
+		private void convertToHyperlinkedText(TextBlock textBlock, string text)
 		{
 			foreach (Inline inline in textBlock.Inlines)
 			{
 				if (inline is Hyperlink)
 				{
-					(inline as Hyperlink).Click -= Hyperlink_Click;
+					(inline as Hyperlink).Click -= hyperlink_Click;
 				}
 			}
 
@@ -199,7 +199,7 @@ namespace TaskDialogInterop
 
 				hyperlink.Inlines.Add(match.Groups["text"].Value);
 				hyperlink.Tag = match.Groups["link"].Value;
-				hyperlink.Click += Hyperlink_Click;
+				hyperlink.Click += hyperlink_Click;
 
 				hyperlinks.Add(hyperlink);
 			}
