@@ -3,12 +3,9 @@
     public class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
-            App app = new()
-            {
-                CLArgs = args
-            };
+            App app = new();
             app.Run();
         }
     }

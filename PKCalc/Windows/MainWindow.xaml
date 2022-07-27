@@ -11,7 +11,7 @@
         xmlns:vm="clr-namespace:PKCalc.ViewModels"
         xmlns:debugview="clr-namespace:PKCalc.Views.Debug"
         mc:Ignorable="d"
-        Title="PKCalc" 
+        Title="PKCalc"
         Width="1280" Height="1024"
         MinWidth="1280" MinHeight="850">
     <Window.DataContext>
@@ -21,24 +21,9 @@
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <converters:ToUpperValueConverter x:Key="StringToUpperConverter" />
-            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
-                <Grid Height="48">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding Icon}"
-                                    Focusable="False"
-                                    IsTabStop="False" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Text="{Binding Label}" />
-                </Grid>
-            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/MainWindowStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
 
@@ -55,7 +40,7 @@
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands ShowSeparators="False">
-            <!--<mah:ToggleSwitch Name="ModeToggle" Style="{StaticResource ThemeSwitchStyle}" IsOn="True" Command="{Binding OnModeToggle}" />-->
+            <mah:ToggleSwitch Name="ThemeToggle" Style="{StaticResource ThemeSwitchStyle}" IsOn="True" Command="{Binding OnThemeToggle}" />
             <Button Command="{Binding OnDebugButton}" 
                     CommandParameter="{Binding ElementName=DebugFlyout}" 
                     Visibility="{Binding Source={x:Static root:App.IsDebug}, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -69,7 +54,7 @@
 
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
-            <mah:Flyout x:Name="DebugFlyout" Header="Debug Log" Position="Right" MaxWidth="500" IsPinned="False">
+            <mah:Flyout x:Name="DebugFlyout" Header="Debug Log" Position="Right" MaxWidth="500" IsPinned="True">
                 <debugview:DebugLogView />
             </mah:Flyout>
             <mah:Flyout x:Name="AboutFlyout" Header="About" Position="Right" MaxWidth="500" IsPinned="False">
@@ -89,44 +74,61 @@
             <mah:HamburgerMenu x:Name="SidebarMenu"
                                DisplayMode="CompactOverlay"
                                HamburgerWidth="48"
+                               ItemInvoked="SidebarMenu_ItemInvoked"
                                ItemTemplate="{StaticResource MenuItemTemplate}"
                                OptionsItemTemplate="{StaticResource MenuItemTemplate}"
                                SelectedIndex="0">
                 <mah:HamburgerMenu.ItemsSource>
                     <mah:HamburgerMenuItemCollection>
-                        <mah:HamburgerMenuIconItem Label="Calculator"
-                                                   Icon="{iconPacks:Material Kind=Calculator}">
+                        <mah:HamburgerMenuIconItem Label="Calculator" Icon="{iconPacks:Material Kind=Calculator}">
                             <mah:HamburgerMenuIconItem.Tag>
-                                <UserControl>
-                                    <StackPanel Orientation="Vertical">
-                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                                        <mah:ToggleSwitch Margin="0 0 0 5"
-                                                          Header="Ut dictum arcu egestas aliquet elementum"
-                                                          IsOn="True" />
-                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Pellentesque ultricies metus quis dui luctus, vel faucibus risus rhoncus" />
-                                    </StackPanel>
-                                </UserControl>
+                                <UserControl />
                             </mah:HamburgerMenuIconItem.Tag>
                         </mah:HamburgerMenuIconItem>
-                        <mah:HamburgerMenuIconItem Label="One vs All"
-                                                   Icon="{iconPacks:Material Kind=PowerSettings}" />
-                        <mah:HamburgerMenuIconItem Label="All vs One"
-                                                   Icon="{iconPacks:Material Kind=Help}" />
-                        <mah:HamburgerMenuIconItem Label="UI Tests"
-                                                   Icon="{iconPacks:FileIcons Kind=TestGeneric}" />
+                        <mah:HamburgerMenuIconItem Label="One vs All" Icon="{iconPacks:Material Kind=PowerSettings}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl />
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Label="All vs One" Icon="{iconPacks:Material Kind=Help}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl />
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Label="UI Tests" Icon="{iconPacks:FileIcons Kind=TestGeneric}" IsVisible="{Binding Source={x:Static root:App.IsDebug}}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl />
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
                     </mah:HamburgerMenuItemCollection>
                 </mah:HamburgerMenu.ItemsSource>
 
                 <mah:HamburgerMenu.OptionsItemsSource>
                     <mah:HamburgerMenuItemCollection>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Account}" Label="Connected Services">
-
+                        <mah:HamburgerMenuIconItem Label="Connected Services" Icon="{iconPacks:Material Kind=Account}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl />
+                            </mah:HamburgerMenuIconItem.Tag>
                         </mah:HamburgerMenuIconItem>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
-                            
+                        <mah:HamburgerMenuIconItem Label="Settings" Icon="{iconPacks:Material Kind=Cog}">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl />
+                            </mah:HamburgerMenuIconItem.Tag>
                         </mah:HamburgerMenuIconItem>
                     </mah:HamburgerMenuItemCollection>
                 </mah:HamburgerMenu.OptionsItemsSource>
+
+                <mah:HamburgerMenu.ContentTemplate>
+                    <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
+                        <Grid Margin="20 0 10 0">
+                            <ScrollViewer Focusable="False"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ContentControl Content="{Binding Tag}" Focusable="False" />
+                            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </mah:HamburgerMenu.ContentTemplate>
             </mah:HamburgerMenu>
         </Border>
 

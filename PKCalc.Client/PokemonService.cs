@@ -1,4 +1,5 @@
 ﻿using PKCalc.Net;
+using System.Collections.ObjectModel;
 
 namespace PKCalc.Client
 {
@@ -11,7 +12,10 @@ namespace PKCalc.Client
             get
             {
                 if (instance == null)
+                {
                     instance = new();
+                    instance.Logger.Trace("Creating new instance of PokemonService.");
+                }
                 return instance;
             }
         }
@@ -21,19 +25,20 @@ namespace PKCalc.Client
         /// </summary>
         public bool IsOnline => NetworkHelper.IsOnline;
 
-        private Logger.AppLog logger;
-        public Logger.AppLog Logger
+        private Logger.Log logger;
+        public Logger.Log Logger
         {
             get
             {
+                if (logger == null)
+                {
+                    logger = new(minLogLevel: Configuration.RegistryHelper.GetLogLevel(),
+                                 internalLogItems: InternalLog);
+                }
                 return logger;
             }
-            set
-            {
-                if (logger == null)
-                    logger = value;
-            }
         }
+        public ObservableCollection<Logger.InternalLogItem> InternalLog { get; } = new();
 
         private PokemonService()
         {

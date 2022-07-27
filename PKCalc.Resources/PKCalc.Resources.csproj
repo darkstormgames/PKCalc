@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="baseImages.data" />
+    <None Remove="species_BaseImages.data" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="baseImages.data" />
+    <EmbeddedResource Include="species_BaseImages.data" />
   </ItemGroup>
 
 </Project>

@@ -29,9 +29,10 @@
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Level.Name, Converter={StaticResource StringToUpperConverter}}" Header="Level" />
+                <DataGridTextColumn Binding="{Binding LogSource}" Header="Source" />
                 <DataGridTextColumn Binding="{Binding TimeString}" Header="Time" />
                 <DataGridTextColumn Binding="{Binding Message}" Header="Message" />
-                <DataGridTextColumn Binding="{Binding Exception.StackTrace}" Header="StackTrace" />
+                <DataGridTextColumn Binding="{Binding StackTrace}" Header="StackTrace" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -16,36 +16,25 @@ namespace PKCalc
 {
     public partial class App : Application
     {
-        private static Logger.AppLog logger;
-        public static Logger.AppLog Logger 
+        private static Logger.Log logger;
+        public static Logger.Log Logger 
         { 
             get
             {
                 if (logger == null)
                 {
-#if DEBUG
-                    logger = new(minLogLevel: NLog.LogLevel.Trace, internalLogItems: InternalLog);
-#else
-                    logger = new(minLogLevel: Configuration.RegistryHelper.GetLogLevel());
-#endif
+                    logger = new(minLogLevel: Configuration.RegistryHelper.GetLogLevel(),
+                                 internalLogItems: InternalLog);
                 }
                 return logger;
             }
         }
         public static ObservableCollection<Logger.InternalLogItem> InternalLog { get; private set; } = new();
         public static PokemonService Service { get; private set; }
-#if DEBUG
-        public static bool IsDebug => true;
-#else
-        public static bool IsDebug => false;
-#endif
-
-
-        public string[] CLArgs { get; internal set; }
+        public static bool IsDebug => Configuration.RegistryHelper.GetLogLevel().Ordinal <= 1;
 
         public App()
         {
-            this.CLArgs = Array.Empty<string>();
             this.Startup += this.Application_Startup;
             this.Exit += this.Application_Exit;
             this.DispatcherUnhandledException += Application_UnhandledException; ;
@@ -89,6 +78,8 @@ namespace PKCalc
         {
             Logger.Error(e.Exception, "Unhandled Exception.");
             TaskDialogHelper.ShowError(e.Exception);
+            
+            e.Handled = true;
         }
     }
 }

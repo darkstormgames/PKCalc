@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PKCalc.Configuration\PKCalc.Configuration.csproj" />
     <ProjectReference Include="..\PKCalc.Logger\PKCalc.Logger.csproj" />
     <ProjectReference Include="..\PKCalc.Net\PKCalc.Net.csproj" />
   </ItemGroup>

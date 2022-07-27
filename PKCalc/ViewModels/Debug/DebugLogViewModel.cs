@@ -14,17 +14,24 @@ namespace PKCalc.ViewModels.Debug
         public DebugLogViewModel()
         {
             this.LogItems = App.InternalLog;
-            this.LogItems.CollectionChanged += onLogChanged;
+            foreach (Logger.InternalLogItem item in App.Service.InternalLog)
+            {
+                this.LogItems.Add(item);
+            }
+            App.Service.InternalLog.CollectionChanged += other_OnLogChanged;
         }
 
-        private void onLogChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void other_OnLogChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            base.OnPropertyChanged(nameof(this.LogItems));
+            foreach (Logger.InternalLogItem item in e.NewItems.Cast<Logger.InternalLogItem>())
+            {
+                this.LogItems.Add(item);
+            }
         }
 
         protected override void Cleanup()
         {
-            this.LogItems.CollectionChanged -= onLogChanged;
+            App.Service.InternalLog.CollectionChanged -= other_OnLogChanged;
         }
     }
 }
