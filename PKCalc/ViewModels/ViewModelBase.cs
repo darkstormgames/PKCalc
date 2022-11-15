@@ -8,7 +8,7 @@ namespace PKCalc.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         
-        protected bool Set<T>(ref T? field, T? newValue = default, [CallerMemberName] string? propertyName = null)
+        protected bool Set<T>(ref T? field, T? newValue = default, [CallerMemberName] string? propertyName = null, bool suppressLogging = false)
         {
             if (EqualityComparer<T>.Default.Equals(field!, newValue!))
             {
@@ -16,8 +16,9 @@ namespace PKCalc.ViewModels
             }
 
             field = newValue;
-
             this.OnPropertyChanged(propertyName);
+            if (!suppressLogging)
+                App.Logger.Trace("Property {0} changed.", propertyName);
 
             return true;
         }

@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PKCalc.Views.Debug"
       xmlns:root="clr-namespace:PKCalc"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:converters="clr-namespace:PKCalc.Converters"
       xmlns:vm="clr-namespace:PKCalc.ViewModels.Debug"
       mc:Ignorable="d" 
@@ -26,7 +27,13 @@
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding LogItems, UpdateSourceTrigger=PropertyChanged}"
                   Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  SelectedIndex="{Binding LastItemIndex}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Grid_SelectionChanged, Mode=OneWay}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Level.Name, Converter={StaticResource StringToUpperConverter}}" Header="Level" />
                 <DataGridTextColumn Binding="{Binding LogSource}" Header="Source" />

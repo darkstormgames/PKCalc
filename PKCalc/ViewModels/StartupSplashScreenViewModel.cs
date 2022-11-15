@@ -10,14 +10,25 @@ namespace PKCalc.ViewModels
     {
 
 
+        public bool CheckForUpdates()
+        {
+            App.Logger.Debug("Checking for updates.");
+
+            // Check for updates
+            App.Logger.Trace("Finished checking for updates.");
+            return true;
+        }
 
         public bool LoadData()
         {
-            App.Logger.Trace("Loading data.");
+            App.Logger.Debug("Loading data.");
 
-            // Load data from a database, web service, or other source
+            // Load data into cache
+            App.Service.ReloadCache();
+            
             App.Logger.Trace("Finished loading data.");
             return true;
         }
+
     }
 }

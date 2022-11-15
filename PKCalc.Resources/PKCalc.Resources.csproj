@@ -7,11 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="species_BaseImages.data" />
+    <None Remove="species_baseImages.data" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="species_BaseImages.data" />
+    <EmbeddedResource Include="Files\species_baseImages.data" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

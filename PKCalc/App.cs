@@ -32,24 +32,33 @@ namespace PKCalc
         public static ObservableCollection<Logger.InternalLogItem> InternalLog { get; private set; } = new();
         public static PokemonService Service { get; private set; }
         public static bool IsDebug => Configuration.RegistryHelper.GetLogLevel().Ordinal <= 1;
+        public static bool IsExiting { get; private set; }
 
         public App()
         {
-            this.Startup += this.Application_Startup;
-            this.Exit += this.Application_Exit;
-            this.DispatcherUnhandledException += Application_UnhandledException; ;
+            this.Startup += this.application_Startup;
+            this.Exit += this.application_Exit;
+            this.DispatcherUnhandledException += application_UnhandledException; ;
             InitializeComponent();
         }
 
-
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private void application_Startup(object sender, StartupEventArgs e)
         {
             Logger.Trace("Starting Application.");
             StartupSplashScreen splash = new();
             Service = PokemonService.Instance;
             splash.Show();
-            if (splash.DataContext != null)
-                ((ViewModels.StartupSplashScreenViewModel)splash.DataContext).LoadData();
+            if (splash.DataContext != null && splash.DataContext is ViewModels.StartupSplashScreenViewModel splashVM)
+            {
+                // Check for updates
+                splashVM.CheckForUpdates();
+
+                // Download missing/updated data
+                
+                
+                // Load application data to cache
+                splashVM.LoadData();
+            }
             else
             {
                 Logger.Fatal("StartupSplashScreenViewModel is null.");
@@ -68,13 +77,15 @@ namespace PKCalc
             Logger.Info("Application started.");
         }
 
-        private void Application_Exit(object sender, EventArgs e)
+        private void application_Exit(object sender, EventArgs e)
         {
             Logger.Info("Exiting Application.");
+            // Finish Network Tasks before telling the whole Application, that we're about to exit
+            IsExiting = true;
             NLog.LogManager.Shutdown();
         }
 
-        private void Application_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void application_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Logger.Error(e.Exception, "Unhandled Exception.");
             TaskDialogHelper.ShowError(e.Exception);

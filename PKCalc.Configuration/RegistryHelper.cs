@@ -4,7 +4,7 @@ namespace PKCalc.Configuration
 {
     public static class RegistryHelper
     {
-        private static RegistryKey getRootKey()
+        private static RegistryKey? getRootKey()
         {
             if (OperatingSystem.IsWindows())
             {
@@ -30,10 +30,11 @@ namespace PKCalc.Configuration
         #region LogLevel
         public static NLog.LogLevel GetLogLevel()
         {
-            RegistryKey root = getRootKey();
+            RegistryKey? root = getRootKey();
             if (root == null) return NLog.LogLevel.Info;
             if (int.TryParse(root.GetValue("LogLevel")?.ToString(), out int logOrdinal))
             {
+                root.Close();
                 return logOrdinal switch
                 {
                     0 => NLog.LogLevel.Trace,
@@ -56,7 +57,7 @@ namespace PKCalc.Configuration
         
         public static void SetLogLevel(NLog.LogLevel logLevel)
         {
-            RegistryKey root = getRootKey();
+            RegistryKey? root = getRootKey();
             if (root == null) return;
             root.SetValue("LogLevel", logLevel.Ordinal);
             root.Close();
@@ -66,10 +67,11 @@ namespace PKCalc.Configuration
         #region Metrics
         public static bool GetMetrics()
         {
-            RegistryKey root = getRootKey();
+            RegistryKey? root = getRootKey();
             if (root == null) return false;
             if (bool.TryParse(root.GetValue("Metrics")?.ToString(), out bool metrics))
             {
+                root.Close();
                 return metrics;
             }
             else
@@ -82,13 +84,12 @@ namespace PKCalc.Configuration
 
         public static void SetMetrics(bool metrics)
         {
-            RegistryKey root = getRootKey();
+            RegistryKey? root = getRootKey();
             if (root == null) return;
             root.SetValue("Metrics", metrics);
             root.Close();
         }
         #endregion
-
 
 #pragma warning restore CA1416 // Plattformkompatibilität überprüfen
     }
